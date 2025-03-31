@@ -1,12 +1,12 @@
 .upload-box{
   /* border: 1px solid red; */
   width: 50vw;
-  display: flex;
   justify-self: center;
+  border: 1px solid #80808048;
+  border-radius: .8em;
   margin-top: 5em;
   flex-direction: column;
   gap: 2em;
-  padding: 0em 1.5em;
 }
 
 .upload-header-container{

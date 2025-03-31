@@ -1,30 +1,36 @@
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, IconButton } from "@mui/material";
 import { Content } from "../util/StoryUtil";
-import { StorieList } from "../util/contentExpiration";
-import Story from "./Story";
+import React, { useContext } from "react";
+import { StoriesObject, StoryContex } from "../context/StoryContex";
 
-export default function StoryThumbnail({storyList}: {storyList: Array<StorieList>;}) {
+export default function StoryThumbnail() {
+ 
+  const {stories, setStoryToView} = useContext(StoryContex) as StoriesObject;
+
+  const showStory = (event : React.MouseEvent) =>{
+    setStoryToView(event.currentTarget.id);
+  }
 
   return (
-    <Box component={"div"}>
-      {storyList.map((story) => {
-        const thumbanail: Array<Content> = JSON.parse(story.storyContent);
+    <>
+      {stories &&
+        <Box component={"div"} sx={{display:'flex', gap:1}}>
+          {stories?.map((story) => {
+            const thumbanail: Array<Content> = JSON.parse(story.storyContent);
 
-        return (
-          <Avatar
-            src={thumbanail[0].image}
-            key={story.storyId}
-            variant="circular"
-            sx={{ width: 150, height: 150 }}
-          />
-        );
-      })}
-      {
-        storyList.map((story, index)=>{
-          const thumbanail: Array<Content> = JSON.parse(story.storyContent);
-          return (<Story storyContent={thumbanail} key={index}/>)
-        })
+            return (
+              <IconButton id={story.storyId} onClick={showStory} key={story.storyId}>
+                <Avatar
+                  src={thumbanail[0].image}
+                  key={story.storyId}
+                  variant="circular"
+                  sx={{ width: 50, height: 50 }}
+                />
+              </IconButton>
+            );
+          })}
+        </Box>
       }
-    </Box>
+    </>
   );
 }

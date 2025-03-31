@@ -1,15 +1,16 @@
 import { Container } from "@mui/material";
-import NavBar from "../components/NavBar";
-import Stories from "../components/Stories";
+import StoryContexProvider from "../context/StoryContex";
+import StoryThumbnail from "../components/StoryThumbnail";
+import Story from "../components/Story";
+
 
 export default function Home(){
   return (
     <Container>
-      <NavBar />
-      <Stories />
-      {/* <UploadContexProvider>
-        <Upload />
-      </UploadContexProvider> */}
+      <StoryContexProvider>
+        <StoryThumbnail />
+        <Story />
+      </StoryContexProvider>
     </Container>
   )
 }

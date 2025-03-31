@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider } from "@mui/material";
+import { Avatar, Box, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useContext } from "react";
 import { UploadContex, UploadContexType } from "../context/UploadContext";
@@ -16,7 +16,7 @@ export default function Preview({ name, image, imageId }: Content) {
   };
 
   return (
-    <Box component={"div"} draggable>
+    <Box component={"div"} draggable sx={{border:'1px solid #81809148', padding:1, borderRadius:1, margin:1}}>
       <Box component={"div"} className="image">
         <Avatar
           src={image}
@@ -25,11 +25,10 @@ export default function Preview({ name, image, imageId }: Content) {
           sx={{ width: 60, height: 60 }}
         />
         <p className="imageName">{name}</p>
-        <Button id={imageId} onClick={handleDelete}>
+        <IconButton id={imageId} onClick={handleDelete}>
           <DeleteIcon />
-        </Button>
+        </IconButton>
       </Box>
-      <Divider />
     </Box>
   );
 }

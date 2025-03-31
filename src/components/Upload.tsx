@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Divider, IconButton } from "@mui/material";
 import "../styles/Upload.css";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -8,10 +8,12 @@ import Story from "../util/StoryUtil";
 import PreviewList from "./PreviewList";
 import { UploadContex, UploadContexType } from "../context/UploadContext";
 import WebCam from "./WebCam";
+import { useNavigate } from "react-router";
 
 export default function Upload() {
   const fileInput = useRef<HTMLInputElement | null>(null);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { setContent, story } = useContext(UploadContex) as UploadContexType;
 
@@ -31,31 +33,33 @@ export default function Upload() {
 
   return (
     <Box component={"section"} className="upload-box">
-      <Box component={"div"} className="upload-header-container">
-        <h1>Create new Story</h1>
-        <Button onClick={handleFileUpload}>
+      <Box component={"div"} sx={{display:'flex', marginRight:1, marginLeft:1, gap:1}}>
+        <h1 style={{flex:1}} >Create new Story</h1>
+        <IconButton onClick={handleFileUpload}>
           {" "}
           <FileUploadIcon />{" "}
-        </Button>
-        <Button onClick={() => setOpen(true)}>
+        </IconButton>
+        <IconButton onClick={() => setOpen(true)}>
           {" "}
           <PhotoCameraIcon />{" "}
-        </Button>
+        </IconButton>
       </Box>
+      <Divider />
       <PreviewList />
 
       <WebCam open={open} setOpen={setOpen} />
 
-      <div className="action-btn-container">
+      <Box component={'div'} sx={{margin:1}} className="action-btn-container">
         <Button
           onClick={() => {
             saveToLocalStorage(story.current as Story);
+            navigate('/');
           }}
         >
           Create
         </Button>
         <Button>Preview</Button>
-      </div>
+      </Box>
       <input
         type="file"
         onChange={saveFiles}

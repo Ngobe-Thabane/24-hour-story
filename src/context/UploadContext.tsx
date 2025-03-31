@@ -11,11 +11,8 @@ export const UploadContex = createContext<UploadContexType | undefined>(
   undefined
 );
 
-export default function UploadContexProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function UploadContexProvider({children,}: {children: ReactNode;}) {
+  
   const [content, setContent] = useState<Array<Content>>([]);
   const story = useRef<Story | null>(null);
 

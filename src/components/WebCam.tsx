@@ -1,9 +1,10 @@
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useContext, useEffect, useRef} from 'react';
 import { UploadContex, UploadContexType } from '../context/UploadContext';
+import CircleIcon from '@mui/icons-material/Circle';
+import { Card, IconButton } from '@mui/material';
 
 export default function WebCam({open,setOpen}:{open:boolean, setOpen:(open:boolean)=> void}) {
 
@@ -16,8 +17,8 @@ export default function WebCam({open,setOpen}:{open:boolean, setOpen:(open:boole
   const startWebCam = async () =>{
     const stream = await navigator.mediaDevices.getUserMedia({
       video:{
-        width: 500,
-        height: 500,
+        width: 600,
+        height: 600,
       }});
 
       if(video.current)  video.current.srcObject = stream;
@@ -46,11 +47,15 @@ export default function WebCam({open,setOpen}:{open:boolean, setOpen:(open:boole
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box>
-          <canvas ref={canvas} width={500} height={500} hidden></canvas>
-          <video autoPlay width={500} height={500} ref={video}></video>
-          <Button onClick={captureImage}>capture</Button>
-        </Box>
+        <Card sx={{height:600, width:600, margin:'auto'}}>
+          <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', position:'relative'}}>
+            <canvas ref={canvas} width={600} height={600} hidden></canvas>
+            <video autoPlay width={600} height={600} ref={video}></video>
+            <IconButton onClick={captureImage} sx={{position:'absolute', bottom:0}}>
+              <CircleIcon sx={{fontSize:70}}/>
+            </IconButton>
+          </Box>
+        </Card>
       </Modal>
     </div>
   );
