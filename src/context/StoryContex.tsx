@@ -16,6 +16,7 @@ export default function StoryContexProvider({children}:{children:ReactNode}){
   const [stories, setStories] = useState<Array<StorieList>|null>(null);
   const [currentStoryContent, setCurrentContent] = useState<Array<Content>|null>(null);
   const storyExpiryTimes = getStoryExpiryTimes();
+  const [removedStories, setRemovedStories] = useState(0);
 
   const setStoryToView = (id:string) =>{
     const story = stories?.find((storie)=>{ return storie.storyId === id});
@@ -27,15 +28,16 @@ export default function StoryContexProvider({children}:{children:ReactNode}){
 
       removeStory(story.storyId);
       const updatedStories = localStorage.getItem('stories');
-      if(updatedStories)
+      if(updatedStories){
         setStories(JSON.parse(updatedStories) as Array<StorieList>);
-
+        setRemovedStories((removed)=> removed + 1);
+      }
     }, story.expirytime);})
 
   useEffect(()=>{    
     const updatedStories = localStorage.getItem('stories');
     if(updatedStories) setStories(JSON.parse(updatedStories) as Array<StorieList>);     
-    }, []);
+    }, [removedStories]);
 
   return (
     <StoryContex.Provider value={{stories, currentStoryContent, setStoryToView}}>
