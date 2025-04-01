@@ -44,7 +44,7 @@ export default class Story{
       timeStamp : new Date().getTime(),
       storyId : this.storyId,
       storyContent : JSON.stringify(this.storyContent),
-      storyExpirytime : new Date().getTime()+ this.millisecondsIn24Hours,
+      storyExpirytime : new Date().getTime()+ 30000,
     }
   }
 }

@@ -7,41 +7,39 @@ export interface StorieList{
   storyContent: string,
   storyExpirytime : number
 }
+export interface StoryExpire{
+  storyId:string,
+  expirytime : number
+}
 
 const storyList : Array<StorieList> = stories ? JSON.parse(stories) : []
 
-export function getExpiryTimes(){
+export function getStoryExpiryTimes(){
 
-  const timeleft : Array<number> = [];
+  const timeleft : Array<StoryExpire> = [];
 
   storyList.forEach((story)=>{
-    const time = getTimeLeft(story.storyExpirytime);
-    if(time > 0) timeleft.push(time);
+    const time = getStoryExpirytime(story.storyId, story.storyExpirytime);
+    if(time > 0) timeleft.push({storyId: story.storyId, expirytime:time});
   })
 
   return timeleft;
 }
 
-function getTimeLeft(storyExpirytime :number) : number{
+function getStoryExpirytime(storyId:string, expiryTime:number) : number{
 
   const currentTimestamp = new Date().getTime();
-  const timeLeft = storyExpirytime - currentTimestamp;
+  const timeLeft = expiryTime - currentTimestamp;
 
-  if(timeLeft < 0){
-    removeStory(storyExpirytime);
-  }
-  else{
-    setTimeout(()=>{
-      removeStory(storyExpirytime);
-    }, timeLeft);
-  }
+  if(timeLeft < 0) removeStory(storyId);
+
   return timeLeft;
 }
 
 
-function removeStory(storyExpiryTime:number){
+export function removeStory(storyId:string){
   const newStoryList = storyList.filter((story)=>{
-    return story.storyExpirytime === storyExpiryTime;
+    return story.storyId !== storyId;
   });
   localStorage.setItem('stories', JSON.stringify(newStoryList));
 }
