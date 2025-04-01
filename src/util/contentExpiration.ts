@@ -7,6 +7,7 @@ export interface StorieList{
   storyContent: string,
   storyExpirytime : number
 }
+
 export interface StoryExpire{
   storyId:string,
   expirytime : number
@@ -35,7 +36,6 @@ function getStoryExpirytime(storyId:string, expiryTime:number) : number{
 
   return timeLeft;
 }
-
 
 export function removeStory(storyId:string){
   const newStoryList = storyList.filter((story)=>{
