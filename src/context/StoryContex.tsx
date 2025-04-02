@@ -29,8 +29,9 @@ export default function StoryContexProvider({children}:{children:ReactNode}){
       setStories(updatedStories)
     }, 1000)
     return () => clearInterval(intervalStoryUpdateId)
-    
+
   }, [])
+  
   return (
     <StoryContex.Provider value={{stories, currentStoryContent, setStoryToView}}>
       {children}
