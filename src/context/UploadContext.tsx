@@ -7,9 +7,7 @@ export interface UploadContexType {
   story: React.RefObject<Story | null>;
 }
 
-export const UploadContex = createContext<UploadContexType | undefined>(
-  undefined
-);
+export const UploadContex = createContext<UploadContexType | undefined>(undefined);
 
 export default function UploadContexProvider({children,}: {children: ReactNode;}) {
   
