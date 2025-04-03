@@ -17,12 +17,16 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-insta-stories": "^2.8.0",
-    "react-router": "^7.4.1"
+    "react-router": "^7.4.1",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-slick": "^0.23.13",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

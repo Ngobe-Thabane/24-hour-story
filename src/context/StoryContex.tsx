@@ -1,13 +1,11 @@
 import { createContext, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { deleteExpiredStories,getStoriesFromLocalStorage,StorieList } from '../util/contentExpiration';
-import { Content } from "../util/StoryUtil";
 
 export interface StoriesObject{
   stories : Array<StorieList> | null,
   currentStory : StorieList | null,
   setStoryToView : (id:string) => void,
-  nextStory : (id:string) => void
 }
 
 export const StoryContex = createContext<StoriesObject|undefined>(undefined);
@@ -22,21 +20,6 @@ export default function StoryContexProvider({children}:{children:ReactNode}){
     if(story) setCurrentStory(story)
   }
 
-  const nextStory = (id:string) =>{
-    const currentStoryIndex = stories?.findIndex((story)=> story.storyId === id) as number;
-    if(stories){
-      if(currentStoryIndex >= 0 && currentStoryIndex+1 < stories?.length){
-        const story = stories[currentStoryIndex+1]
-        console.log('nextStory')
-        if(story) {
-          setTimeout(()=>{
-            setCurrentStory(story) 
-
-          }, 0)
-        }
-      } 
-    }
-  }
 
   useEffect(()=>{
 
@@ -50,7 +33,7 @@ export default function StoryContexProvider({children}:{children:ReactNode}){
   }, [])
   
   return (
-    <StoryContex.Provider value={{stories, currentStory, setStoryToView, nextStory}}>
+    <StoryContex.Provider value={{stories, currentStory, setStoryToView}}>
       {children}
     </StoryContex.Provider>
   )
