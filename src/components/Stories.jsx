@@ -49,13 +49,16 @@ export default function Stories(){
                   shadowOffset:true,
                   shadowScale:0.60
                 }}
+                onSlideChange={(swiper)=>{
+                  setSlide(swiper.activeIndex);
+                }}
                 modules={[EffectCube]}
               >
                 {
-                  stories.map((story)=>{
+                  stories.map((story,index)=>{
                     return (
                       <SwiperSlide key={story.timestamp}>
-                        <StoryContent nextSlide={handleNextSlide} profileImage={story.profileImage} content={story.storyContent} />
+                        <StoryContent nextSlide={handleNextSlide} profileImage={story.profileImage} content={story.storyContent} slideNumber={index} activeSlide={slideNumber}/>
                       </SwiperSlide>
                     )
                   })

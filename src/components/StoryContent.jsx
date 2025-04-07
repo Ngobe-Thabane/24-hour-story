@@ -9,12 +9,19 @@ import 'swiper/css/autoplay'
 import { useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 
-export default function StoryContent({nextSlide, content, profileImage}){
+export default function StoryContent({nextSlide, content, profileImage, slideNumber, activeSlide}){
 
   const swiperRef = useRef(null);
   useEffect(()=>{
-    console.log(swiperRef.current)
-  }, [content])
+    if(swiperRef.current){
+      if(slideNumber === activeSlide){
+        swiperRef.current.autoplay.start();
+      }
+      else{
+        swiperRef.current.autoplay.stop();
+      }
+    }
+  }, [activeSlide])
 
   const updateProgressBar = (swiper, timeleft, percentage)=>{
 
@@ -31,7 +38,7 @@ export default function StoryContent({nextSlide, content, profileImage}){
     }
     
     if(swiper.isEnd && timeleft < 0){
-      swiper.autoplay.running = false;
+      swiper.autoplay.stop();
       nextSlide();
     }
   }
@@ -40,7 +47,6 @@ export default function StoryContent({nextSlide, content, profileImage}){
   return (
     <Swiper className=" h-[100%] relative rounded-md " 
 
-      ref={swiperRef}
       direction='horizontal'
       centeredSlides={true}
       nested={true}
@@ -52,6 +58,7 @@ export default function StoryContent({nextSlide, content, profileImage}){
       fadeEffect={{
         crossFade: true
       }}
+      onSwiper={(swiper)=> swiperRef.current = swiper}
       onAutoplayTimeLeft={updateProgressBar}
       effect='fade'
       modules={[EffectFade, Autoplay]} >
