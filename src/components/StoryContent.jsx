@@ -1,11 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade} from "swiper/modules";
+import { Autoplay, EffectFade, Pagination} from "swiper/modules";
 import Profile from "./Profile.jsx";
 
 import "swiper/css";
 import 'swiper/css/effect-fade'
 import 'swiper/css/autoplay'
-
+import 'swiper/css/pagination'
 import { useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 
@@ -45,7 +45,7 @@ export default function StoryContent({nextSlide, content, profileImage, slideNum
 
 
   return (
-    <Swiper className=" h-[100%] relative rounded-md " 
+    <Swiper className=" h-[100%] relative rounded-md z-50" 
 
       direction='horizontal'
       centeredSlides={true}
@@ -58,17 +58,19 @@ export default function StoryContent({nextSlide, content, profileImage, slideNum
       fadeEffect={{
         crossFade: true
       }}
+      noSwiping={true}
+      noSwipingClass="inner"
       onSwiper={(swiper)=> swiperRef.current = swiper}
       onAutoplayTimeLeft={updateProgressBar}
       effect='fade'
-      modules={[EffectFade, Autoplay]} >
+      modules={[EffectFade, Autoplay, Pagination]} >
 
       {<ProgressBar content={content} />}
 
       {
         content.map((story)=>{
           return (
-            <SwiperSlide id={story.imageId} key={story.imageId}>
+            <SwiperSlide id={story.imageId} key={story.imageId} className="inner">
               <div className="relative">
                 <Profile image={profileImage} storyThumnail={false} />
                 <div>
