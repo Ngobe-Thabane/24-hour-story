@@ -1,28 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Box, LinearProgress } from '@mui/material';
+# React + Vite
 
-export default function ProgressBar() {
-  const [progress, setProgress] = useState(0);
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-  useEffect(() => {
-    // Set the interval to update the progress every 100ms
-    const intervalId = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(intervalId);  // Clear the interval when progress reaches 100
-          return 100;
-        }
-        return prev + 1;  // Increment progress by 1
-      });
-    }, 30);  // 3000ms / 100ms = 30 updates for 3 seconds
+Currently, two official plugins are available:
 
-    return () => clearInterval(intervalId);  // Cleanup on component unmount
-  }, []);
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-  return (
-    <Box>
-      <LinearProgress variant="determinate" value={progress} />
-    </Box>
-  );
-}
+## Expanding the ESLint configuration
 
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

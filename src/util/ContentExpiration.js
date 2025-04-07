@@ -1,22 +1,14 @@
 
-
-export interface StorieList{
-  timeStamp : number;
-  storyId : string;
-  storyContent: string,
-  storyExpirytime : number
-}
-
 export function getStoriesFromLocalStorage(){
   
   const stories = localStorage.getItem('stories');
-  const storyList : Array<StorieList> = stories ? JSON.parse(stories) : []
+  const storyList = stories ? JSON.parse(stories) : []
   return storyList;
 }
 
 export function deleteExpiredStories(){
   const stories = getStoriesFromLocalStorage();
-  const notExpiredStories : Array<StorieList> = []
+  const notExpiredStories = []
 
   stories.forEach((story)=>{
     const notExpired = isStoryNotExpired(story);
@@ -29,8 +21,8 @@ export function deleteExpiredStories(){
 
 }
 
-function isStoryNotExpired(story: StorieList) : boolean{
+function isStoryNotExpired(story){
   const currentTimestamp = new Date().getTime();
-  const timeLeft = story.storyExpirytime - currentTimestamp;
+  const timeLeft = story.expirationTime - currentTimestamp;
   return timeLeft > 0;
 }
