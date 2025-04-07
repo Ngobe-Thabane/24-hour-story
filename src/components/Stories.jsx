@@ -6,7 +6,7 @@ import 'swiper/css/effect-cube'
 
 import { useEffect, useRef, useState } from "react";
 import StoryContent from "./StoryContent";
-import { getStoriesFromLocalStorage } from "../util/ContentExpiration";
+import { getStoriesFromLocalStorage, getStoryLifeSpans } from "../util/ContentExpiration";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Upload from "./Upload";
 import StoryThumbnails from "./StoryThumbnails";
@@ -15,24 +15,37 @@ import StoryThumbnails from "./StoryThumbnails";
 export default function Stories(){
 
   const swiperRef  = useRef(null);
-  const stories = getStoriesFromLocalStorage();
+  const [storyLifeSpans, setLifeSpanLeft] = useState(getStoryLifeSpans());
+  const [stories,setStories] = useState(getStoriesFromLocalStorage());
   const [open, setOpen] = useState(false);
   const [slideNumber, setSlide] = useState(0);
+  const updateId = useRef(null);
 
   const handleNextSlide = ()=>{
     if(swiperRef.current){
-      swiperRef.current.swiper.slideNext()
+      swiperRef.current.swiper.slideNext();
     }
   }
   const viewStory = (storyNumber) =>{
     setOpen(true);
     setSlide(storyNumber);
   }
+
+  useEffect(()=>{
+
+    const update = ()=>{
+      setLifeSpanLeft(getStoryLifeSpans());
+      setStories(getStoriesFromLocalStorage());
+    }
+    updateId.current = setInterval(update, storyLifeSpans[0]);
+    return () => clearInterval(updateId.current);
+
+  }, [stories]);
   
   return (
     <>
       <div className='border-b-[0.2px] border-gray-500/10 flex gap-1 pb-1'>
-        <Upload />
+        <Upload setStory={setStories} />
         <StoryThumbnails  stories={stories} viewStory={viewStory} />
       </div>
       <Dialog open={open} onClose={()=>{setOpen(false)}}>
@@ -42,7 +55,7 @@ export default function Stories(){
               <Swiper className="w-[450px] h-full relative" 
                 ref={swiperRef}
                 initialSlide={slideNumber}
-                speed={600}
+                speed={500}
                 effect="cube"
                 cubeEffect={{
                   shadow:true,

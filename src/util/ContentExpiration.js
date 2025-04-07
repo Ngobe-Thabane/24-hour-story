@@ -6,23 +6,21 @@ export function getStoriesFromLocalStorage(){
   return storyList;
 }
 
-export function deleteExpiredStories(){
+export function getStoryLifeSpans(){
   const stories = getStoriesFromLocalStorage();
   const notExpiredStories = []
+  const storyLifeSpans = []
 
   stories.forEach((story)=>{
-    const notExpired = isStoryNotExpired(story);
-    if(notExpired) {
+    const currentTimestamp = new Date().getTime();
+    const timeLeft = story.expirationTime - currentTimestamp;
+    if(timeLeft > 0) {
       notExpiredStories.push(story)
+      storyLifeSpans.push(timeLeft);
     }
   })
 
   localStorage.setItem('stories', JSON.stringify(notExpiredStories));
 
-}
-
-function isStoryNotExpired(story){
-  const currentTimestamp = new Date().getTime();
-  const timeLeft = story.expirationTime - currentTimestamp;
-  return timeLeft > 0;
+  return storyLifeSpans.sort((a,b)=> a-b);
 }

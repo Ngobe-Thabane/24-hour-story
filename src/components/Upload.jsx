@@ -4,16 +4,20 @@ import convertImageToBase64, { saveToLocalStorage } from "../util/ImageUtils";
 import UploadedImages from "./UploadedImages";
 import Profile from "./Profile";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import { getStoriesFromLocalStorage } from "../util/ContentExpiration";
 
-export default function Upload(){
+export default function Upload({setStory}){
   const story = useRef(null);
   const fileInput = useRef(null);
   const [content, setContent] = useState([]);
   const [open, setOpen] = useState(false)
+  const [reset, setReset] = useState(false)
 
   useEffect(()=>{
-    if(!story.current){
+    if(reset){
       story.current = new Story();
+      setContent([])
+      setReset(false);
     }
   }, [open])
 
@@ -21,6 +25,7 @@ export default function Upload(){
     story.current.removeStory(id);
     setContent(story.current.getStoryContent());
   }
+
   const closeModal = ()=>{
     setOpen(false);
   }
@@ -31,7 +36,13 @@ export default function Upload(){
 
   const saveStory = ()=>{
     saveToLocalStorage(story.current.getStory());
+    setStory(getStoriesFromLocalStorage());
     setOpen(false);
+  }
+
+  const openModal =()=>{
+    setReset(true);
+    setOpen(true);
   }
 
   const saveFiles = async (event) => {
@@ -51,7 +62,7 @@ export default function Upload(){
 
   return (
     <div>
-      <button onClick={()=>setOpen(true)}>
+      <button onClick={openModal}>
         <Profile image={'public/user.png'} storyThumnail={true} />
       </button>
 

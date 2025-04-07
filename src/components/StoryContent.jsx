@@ -50,9 +50,9 @@ export default function StoryContent({nextSlide, content, profileImage, slideNum
       direction='horizontal'
       centeredSlides={true}
       nested={true}
-      speed={500}
+      speed={300}
       autoplay={{
-        delay:2500,
+        delay:2700,
         stopOnLastSlide:true
       }}
       fadeEffect={{
